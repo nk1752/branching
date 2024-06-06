@@ -42,4 +42,4 @@ jobs:
           echo "This is a bash shell script"
 
       - name: Run a bash script
-        run: bash .github/workflows/test.sh
+        run: bash ./test.sh
