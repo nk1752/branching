@@ -18,3 +18,4 @@ jobs:
             - name: bash
               run: |
                   echo "Hello, world!"
+                  echo "second line!"
