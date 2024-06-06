@@ -1,0 +1,20 @@
+name: echo
+
+on:
+    workflow_dispatch:
+
+jobs:
+    echo:
+        runs-on: ubuntu-latest
+
+        permissions:
+            contents: read
+            pull-requests: write
+
+        steps:
+            - name: Echo
+              run: echo "Hello, world!"
+
+            - name: bash
+              run: |
+                  echo "Hello, world!"
