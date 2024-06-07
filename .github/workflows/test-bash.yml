@@ -33,7 +33,7 @@ jobs:
       - name: Run a multi-line script
         run: |
           message="Hello, world!"
-          echo $message
+          echo "This is message -->" $message
           echo test, and deploy your project.
 
       - name: bash shell
