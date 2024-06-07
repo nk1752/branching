@@ -32,7 +32,8 @@ jobs:
       # Runs a set of commands using the runners shell
       - name: Run a multi-line script
         run: |
-          echo Add other actions to build,
+          message="Hello, world!"
+          echo $message
           echo test, and deploy your project.
 
       - name: bash shell
