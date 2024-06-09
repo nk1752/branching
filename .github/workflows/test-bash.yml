@@ -51,7 +51,7 @@ jobs:
           if [ ${{ github.event_name }} == 'push' ]; then
             echo "This is a push event"
             EVENT_NAME="push"
-            SHOW_NO_SHOW="${{ env.show}}"
+            SHOW_NO_SHOW="${{ env.show }}"
           elif [ ${{ github.event_name }} == 'workflow_dispatch' ]; then
             echo "This is a manual event"
             EVENT_NAME="workflow_dispatch"
@@ -60,13 +60,15 @@ jobs:
             echo "This is an unknown event"
           fi
 
-          echo $EVENT_NAME
+          echo "event name --> $EVENT_NAME"
+          echo "show no show --> $SHOW_NO_SHOW"
       
       - name: Run a multi-line script
         shell: bash
         run: |
-          # show=${{ github.event.inputs.publish }}
+          
           message="Hello, world!"
+          
           if [ "$SHOW_NO_SHOW" = "true" ]; then
             echo "$message"
           else
