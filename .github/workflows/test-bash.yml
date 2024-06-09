@@ -13,6 +13,15 @@ on:
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
+    inputs:
+      test:
+        description: 'Test input'
+        required: true
+        default: 'false'
+        type: choice
+        options:
+          - 'true'
+          - 'false'
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -30,7 +39,8 @@ jobs:
       - name: Run a one-line script
         run: echo Hello, world!
       
-      
+      - name: input
+        run: echo ${{ github.event.inputs.test }}
       # Runs a set of commands using the runners shell
       - name: Run a multi-line script
         run: |
