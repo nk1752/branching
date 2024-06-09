@@ -47,13 +47,13 @@ jobs:
         run: |
           if [ ${{ github.event_name }} == 'pull_request' ]; then
             echo "This is a pull request event"
-            show = ${{ env.show }}
+            show=${{ env.show }}
           elif [ ${{ github.event_name }} == 'push' ]; then
             echo "This is a push event"
-            show = ${{ env.show }}
+            show=${{ env.show }}
           elif [ ${{ github.event_name }} == 'workflow_dispatch' ]; then
             echo "This is a manual event"
-            show = ${{ github.event.inputs.publish }}
+            show=${{ github.event.inputs.publish }}
           else
             echo "This is an unknown event"
           fi
