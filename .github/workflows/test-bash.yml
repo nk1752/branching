@@ -42,12 +42,18 @@ jobs:
       - name: Run a one-line script
         run: echo Hello, world!
       
-      - name: check what trigger the workflow
-        shell: bash
+      - name: What is the event?
         run: |
-          if ${{ github.event_name }} == "workflow_dispatch"; then
-            echo "workflow_dispatch"
+          if [ ${{ github.event_name }} == 'pull_request' ]; then
+            echo "This is a pull request event"
+          elif [ ${{ github.event_name }} == 'push' ]; then
+            echo "This is a push event"
+          elif [ ${{ github.event_name }} == 'workflow_dispatch' ]; then
+            echo "This is a manual event"
+          else
+            echo "This is an unknown event"
           fi
+          
         
           
 
