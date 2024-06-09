@@ -45,20 +45,20 @@ jobs:
       
       - name: What is the event?
         id: what
-        
+        shell: bash
         run: |
           
           if [ ${{ github.event_name }} == 'push' ]; then
             echo "This is a push event"
-            echo ${{ github.event_name }} >> $GITHUB_OUTPUT
+            EVENT_NAME="push"
           elif [ ${{ github.event_name }} == 'workflow_dispatch' ]; then
             echo "This is a manual event"
-            echo ${{ github.event_name }} >> $GITHUB_OUTPUT
+            EVENT_NAME="workflow_dispatch"
           else
             echo "This is an unknown event"
           fi
 
-      
+          echo $EVENT_NAME
       
       - name: Run a multi-line script
         shell: bash
