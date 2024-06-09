@@ -47,14 +47,6 @@ jobs:
         run: |
           if ${{ github.event_name }} == "workflow_dispatch"; then
             echo "workflow_dispatch"
-            echo "show: ${{ github.event.inputs.publish }}"
-          elif ${{ github.event_name }} == "push"; then
-            echo "push"
-            echo "show: ${{ github.env.show }}"
-          elif ${{ github.event_name }} == "pull_request"; then
-            echo "pull_request"
-          else
-            echo "unknown"
           fi
         
           
