@@ -50,16 +50,14 @@ jobs:
           
           if [ ${{ github.event_name }} == 'push' ]; then
             echo "This is a push event"
-            ${{ env.event_name }} = ${{ github.event_name }}
+            echo ${{ github.event_name }} >> $GITHUB_OUTPUT
           elif [ ${{ github.event_name }} == 'workflow_dispatch' ]; then
             echo "This is a manual event"
-            ${{ env.event_name }} = "${{ github.event_name }}"
+            echo ${{ github.event_name }} >> $GITHUB_OUTPUT
           else
             echo "This is an unknown event"
           fi
 
-          echo "show --> ${ env.show }"
-          # echo "::set-output name=SHOW_NO_SHOW::${ selected-show }"
       
       
       - name: Run a multi-line script
