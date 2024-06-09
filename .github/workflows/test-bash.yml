@@ -46,20 +46,24 @@ jobs:
         id: what
         shell: bash
         run: |
+          
           if [ ${{ github.event_name }} == 'pull_request' ]; then
             echo "This is a pull request event"
-            SHOW_NO_SHOW=${{ env.show }}
+            echo "selected-show=${{ env.show }}" >> $GITHUB_OUTPUT
           elif [ ${{ github.event_name }} == 'push' ]; then
             echo "This is a push event"
-            SHOW_NO_SHOW=${{ env.show }}
+            echo "selected-show=${{ env.show }}" >> $GITHUB_OUTPUT
           elif [ ${{ github.event_name }} == 'workflow_dispatch' ]; then
             echo "This is a manual event"
-            SHOW_NO_SHOW=${{ github.event.inputs.publish }}
+            echo "selected-show=${{ github.event.inputs.publish }}" >> $GITHUB_OUTPUT"
           else
             echo "This is an unknown event"
           fi
 
-          echo "show --> ${ SHOW_NO_SHOW }"
+          echo "show --> ${ selected-show }"
+
+          outputs:
+            SHOW_NO_SHOW: $selected-show
       
       
       - name: Run a multi-line script
@@ -67,7 +71,7 @@ jobs:
         run: |
           # show=${{ github.event.inputs.publish }}
           message="Hello, world!"
-          if [ "$SHOW_NO_SHOW" = "true" ]; then
+          if [ "${{ steps.what.outputs.SHOW_NO_SHOW }}" = "true" ]; then
             echo "$message"
           else
             echo "Goodbye, world!"
