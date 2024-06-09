@@ -63,7 +63,7 @@ jobs:
           echo "event name --> $EVENT_NAME"
           echo "show no show --> $SHOW_NO_SHOW"
 
-          echo "{SHOW_NO_SHOW}={$SHOW_NO_SHOW}" >> $GITHUB_OUTPUT
+          echo "SHOW_NO_SHOW=$SHOW_NO_SHOW" >> $GITHUB_OUTPUT
       
       - name: Run a multi-line script
         shell: bash
