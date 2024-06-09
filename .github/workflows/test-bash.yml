@@ -49,13 +49,13 @@ jobs:
           
           if [ ${{ github.event_name }} == 'pull_request' ]; then
             echo "This is a pull request event"
-            selected-show=${{ env.show }}
+            selected-show="${{ env.show }}"
           elif [ ${{ github.event_name }} == 'push' ]; then
             echo "This is a push event"
-            selected-show=${{ env.show }}
+            selected-show="${{ env.show }}"
           elif [ ${{ github.event_name }} == 'workflow_dispatch' ]; then
             echo "This is a manual event"
-            selected-show=${{ github.event.inputs.publish }}
+            selected-show="${{ github.event.inputs.publish }}"
           else
             echo "This is an unknown event"
           fi
