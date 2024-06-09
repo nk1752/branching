@@ -43,23 +43,22 @@ jobs:
         run: echo Hello, world!
       
       - name: What is the event?
+        shell: bash
         run: |
           if [ ${{ github.event_name }} == 'pull_request' ]; then
             echo "This is a pull request event"
+            show = ${{ github.env }}
           elif [ ${{ github.event_name }} == 'push' ]; then
             echo "This is a push event"
+            show = ${{ github.env }}
           elif [ ${{ github.event_name }} == 'workflow_dispatch' ]; then
             echo "This is a manual event"
+            show = ${{ github.event.inputs.publish }}
           else
             echo "This is an unknown event"
           fi
-          
-        
-          
 
-      - name: input
-        run: echo ${{ github.event.inputs.publish }}
-      # Runs a set of commands using the runners shell
+          echo "show --> ${ show }"
       
       
       - name: Run a multi-line script
