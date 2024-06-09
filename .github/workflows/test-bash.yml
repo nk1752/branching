@@ -68,6 +68,8 @@ jobs:
         run: |
           
           message="Hello, world!"
+
+          SHOW_NO_SHOW=${{ steps.what.outputs.SHOW_NO_SHOW }}
           
           if [ ${SHOW_NO_SHOW} == 'true' ]; then
             echo "$message"
