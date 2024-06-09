@@ -25,6 +25,7 @@ on:
 
 env:
   show: "false"
+  event_name: ""
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -44,15 +45,15 @@ jobs:
       
       - name: What is the event?
         id: what
-        shell: bash
+        
         run: |
           
           if [ ${{ github.event_name }} == 'push' ]; then
             echo "This is a push event"
-            
+            ${{ env.event_name }} = ${{ github.event_name }}
           elif [ ${{ github.event_name }} == 'workflow_dispatch' ]; then
             echo "This is a manual event"
-            ${{ env.show }} = "${{ github.event.inputs.publish }}"
+            ${{ env.event_name }} = "${{ github.event_name }}"
           else
             echo "This is an unknown event"
           fi
