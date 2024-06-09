@@ -47,10 +47,10 @@ jobs:
         run: |
           if [ ${{ github.event_name }} == 'pull_request' ]; then
             echo "This is a pull request event"
-            show = ${{ github.env }}
+            show = ${{ github.env.show }}
           elif [ ${{ github.event_name }} == 'push' ]; then
             echo "This is a push event"
-            show = ${{ github.env }}
+            show = ${{ github.env.show }}
           elif [ ${{ github.event_name }} == 'workflow_dispatch' ]; then
             echo "This is a manual event"
             show = ${{ github.event.inputs.publish }}
