@@ -40,17 +40,17 @@ jobs:
 
       # Runs a single command using the runners shell
       - name: show env.show condition
-        run: echo "show --> ${{ github.env.show }}"
+        run: echo "show --> ${{ env.show }}"
       
       - name: What is the event?
         shell: bash
         run: |
           if [ ${{ github.event_name }} == 'pull_request' ]; then
             echo "This is a pull request event"
-            show = ${{ github.env.show }}
+            show = ${{ env.show }}
           elif [ ${{ github.event_name }} == 'push' ]; then
             echo "This is a push event"
-            show = ${{ github.env.show }}
+            show = ${{ env.show }}
           elif [ ${{ github.event_name }} == 'workflow_dispatch' ]; then
             echo "This is a manual event"
             show = ${{ github.event.inputs.publish }}
