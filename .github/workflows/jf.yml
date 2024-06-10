@@ -49,4 +49,7 @@ jobs:
           echo "JF_URL: ${{ secrets.JF_URL }}"
           echo "JF_USER: ${{ secrets.JF_USER }}"
           echo "JF_PASSWORD: ${{ secrets.JF_PASSWORD }}"
-          jfrog rt u ${{ steps.package.outputs.package-name }} ${{ secrets.JF_URL }}/helm-local --user ${{ secrets.JF_USER }} --password ${{ secrets.JF_PASSWORD }}
+          echo "${{ steps.package.outputs.package-file }}"
+          
+          echo "Pushing the helm package to Artifactory"
+          jfrog rt u ${{ steps.package.outputs.package-file }} ${{ secrets.JF_URL }}/helm-local --user ${{ secrets.JF_USER }} --password ${{ secrets.JF_PASSWORD }}
