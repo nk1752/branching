@@ -33,7 +33,7 @@ jobs:
           echo "Helm packaging the code"
           helm package ./bluegreen
 
-          filename=${ ls *tgz }
+          filename=${ ls *.tgz }
           echo "Filename: $filename"
 
           echo package-file=$filename >> $GITHUB_ENV
