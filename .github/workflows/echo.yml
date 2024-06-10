@@ -3,6 +3,10 @@ name: echo
 on:
     workflow_dispatch:
 
+env:
+    show: "true"
+    branch: ${{ github.ref }}
+
 jobs:
     echo:
         runs-on: ubuntu-latest
@@ -15,7 +19,11 @@ jobs:
             - name: Echo
               run: echo "Hello, world!"
 
-            - name: bash
+            - name: bash shell
+              shell: bash
               run: |
-                  echo "Hello, world!"
-                  echo "second line!"
+                if [ "${{ env.show }}" == "true" ]; then
+                    echo "${{ env.branch }}"
+                else
+                    echo "Goodbye, world!"
+                fi
