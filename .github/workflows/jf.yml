@@ -33,10 +33,10 @@ jobs:
           echo "Helm packaging the code"
           helm package ./bluegreen
 
-          filename=${ ls *.tgz }
+          filename=bluegreen-0.1.0.tgz
           echo "Filename: $filename"
 
-          echo package-file=$filename >> $GITHUB_ENV
+          echo package-file=$filename >> $GITHUB_OUTPUT
 
       - name: Setup JFrog CLI
         uses: jfrog/setup-jfrog-cli@v4
