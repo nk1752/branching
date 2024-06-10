@@ -1,49 +1,65 @@
 name: echo
 
 on:
-    workflow_dispatch:
-    push:
-        branches:
-            - feature/patch-1
+  workflow_dispatch:
+  push:
+    branches:
+      - feature/patch-1
 
 env:
-    show: "true"
-    branch: ${{ github.ref }}
+  show: "true"
+  branch: ${{ github.ref }}
 
 jobs:
-    echo:
-        runs-on: ubuntu-latest
+  echo:
+    runs-on: ubuntu-latest
 
-        permissions:
-            contents: read
-            pull-requests: write
+    permissions:
+      contents: read
+      pull-requests: write
 
-        steps:
-            - name: Echo
-              run: echo "Hello, world!"
+    steps:
+      - name: Echo
+        run: echo "Hello, world!"
 
-            - name: bash shell
-              shell: bash
-              run: |
-                if [ "${{ env.show }}" == "true" ]; then
-                    echo "${{ env.branch }}"
-                else
-                    echo "Goodbye, world!"
-                fi
+      - name: bash shell
+        shell: bash
+        run: |
+          if [ "${{ env.show }}" == "true" ]; then
+              echo "${{ env.branch }}"
+          else
+              echo "Goodbye, world!"
+          fi
 
-    artifactory:
-        runs-on: ubuntu-latest
+  artifactory:
+    needs: echo
+    
+    runs-on: ubuntu-latest
 
-        permissions:
-            contents: read
-            pull-requests: write
+    
 
-        steps:
-            - name: checkout
-              uses: actions/checkout@v4
+    permissions:
+      contents: read
+      pull-requests: write
 
-            - name: login to Artifactory
-              uses: jfrog/setup-jfrog-cli@v4
-              
-            - run: jf --version
-                     
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+
+      - name: setup jf cli Artifactory
+        uses: jfrog/setup-jfrog-cli@v4
+
+      - name: check jf version
+        run: jf --version
+
+        env:
+          # JFrog platform url (for example: https://acme.jfrog.io)
+          JF_URL: ${{ secrets.JF_URL }}
+
+          # Basic authentication credentials
+          JF_USER: ${{ secrets.JF_USER }}
+          JF_PASSWORD: ${{ secrets.JF_PASSWORD }}
+
+      - name: check jf version
+        run: |
+          jf rt ping
