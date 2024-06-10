@@ -24,19 +24,29 @@ jobs:
         run: |
           echo "Helm templating the code"
           helm template ./bluegreen
+          
 
       - name: helm package
+        id: package
         shell: bash
         run: |
           echo "Helm packaging the code"
           helm package ./bluegreen
 
+          filename=${ ls *tgz }
+          echo "Filename: $filename"
+
+          echo package-file=$filename >> $GITHUB_ENV
+
       - name: Setup JFrog CLI
         uses: jfrog/setup-jfrog-cli@v4
-        env:
-          JF_URL: ${{ secrets.JF_URL }}
-          JF_USER: ${{ secrets.JF_USER }}
-          JF_PASSWORD: ${{ secrets.JF_PASSWORD }}
-        
-      - run: |
-          jf --version
+
+      - name: helm push
+        shell: bash
+        run: |
+          echo "Helm pushing the code"
+          echo "Package file: $package-file"
+          echo "JF_URL: ${{ secrets.JF_URL }}"
+          echo "JF_USER: ${{ secrets.JF_USER }}"
+          echo "JF_PASSWORD: ${{ secrets.JF_PASSWORD }}"
+          jfrog rt u ${{ steps.package.outputs.package-name }} ${{ secrets.JF_URL }}/helm-local --user ${{ secrets.JF_USER }} --password ${{ secrets.JF_PASSWORD }}
