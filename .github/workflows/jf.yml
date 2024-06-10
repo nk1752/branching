@@ -13,13 +13,17 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: buld lint test
+      - name: helm lint
         shell: bash
         run: |
-          echo "Building the code"
           echo "Linting the code"
-          echo "Testing the code"
           helm lint ./bluegreen
+
+      - name: helm template
+        shell: bash
+        run: |
+          echo "Helm templating the code"
+          helm template ./bluegreen
 
       - name: Setup JFrog CLI
         uses: jfrog/setup-jfrog-cli@v4
