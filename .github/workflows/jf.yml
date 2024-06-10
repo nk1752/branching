@@ -3,7 +3,7 @@ name: Build and Tag Docker Image
 on:
   push:
     branches:
-      - main
+      - feature/patch-1
   workflow_dispatch:
       
 jobs:
