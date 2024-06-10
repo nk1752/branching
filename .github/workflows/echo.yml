@@ -2,6 +2,9 @@ name: echo
 
 on:
     workflow_dispatch:
+    push:
+        branches:
+            - feature/patch-1
 
 env:
     show: "true"
@@ -27,3 +30,20 @@ jobs:
                 else
                     echo "Goodbye, world!"
                 fi
+
+    artifactory:
+        runs-on: ubuntu-latest
+
+        permissions:
+            contents: read
+            pull-requests: write
+
+        steps:
+            - name: checkout
+              uses: actions/checkout@v4
+
+            - name: login to Artifactory
+              uses: jfrog/setup-jfrog-cli@v4
+              
+            - run: jf --version
+                     
