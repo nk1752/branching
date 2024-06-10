@@ -25,6 +25,12 @@ jobs:
           echo "Helm templating the code"
           helm template ./bluegreen
 
+      - name: helm package
+        shell: bash
+        run: |
+          echo "Helm packaging the code"
+          helm package ./bluegreen
+
       - name: Setup JFrog CLI
         uses: jfrog/setup-jfrog-cli@v4
         env:

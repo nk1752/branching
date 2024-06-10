@@ -2,9 +2,7 @@ name: echo
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - feature/patch-1
+  
 
 env:
   show: "true"
