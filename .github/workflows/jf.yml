@@ -16,6 +16,7 @@ jobs:
       id-token: write
 
     steps:
+      
       - name: Checkout code
         uses: actions/checkout@v4
 
@@ -33,6 +34,7 @@ jobs:
 
   helm-package-push:
     runs-on: ubuntu-latest
+    needs: [ helm-lint ]
 
     permissions:
       contents: read
@@ -40,8 +42,10 @@ jobs:
       id-token: write
 
     steps:
-          
 
+      - name: Checkout code
+        uses: actions/checkout@v4
+          
       - name: helm package
         id: package
         shell: bash
