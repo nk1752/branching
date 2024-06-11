@@ -37,7 +37,7 @@ jobs:
           echo "Filename: $filename"
 
           echo package-name=$filename >> $GITHUB_OUTPUT
-          echo package-file=$filename >> $GITHUB_OUTPUT_FILE
+          
 
       - name: Setup JFrog CLI
         uses: jfrog/setup-jfrog-cli@v4
@@ -46,7 +46,7 @@ jobs:
         shell: bash
         run: |
           echo "package-name --> ${{ steps.package.outputs.package-name }}"
-          echo "package-file --> ${{ steps.package.outputs.package-file }}"
+          
 
           echo "Setting the JFrog CLI " > test.txt
           
