@@ -65,7 +65,7 @@ jobs:
       
           helm package ./bluegreen        
 
-          filename=bluegreen-0.2.0.tgz
+          filename=$(ls -t bluegreen-*.tgz | head -n1)
           echo "Filename: $filename"
 
           jf rt upload filename nk-helm-local/$filename
