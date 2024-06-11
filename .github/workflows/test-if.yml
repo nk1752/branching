@@ -9,19 +9,6 @@ on:
       - feature/patch-1
   # Triggers the workflow on push or pull request events but only for the "main" branch
 
-  
-
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
-    inputs:
-      publish:
-        description: 'push to artifactory'
-        required: true
-        default: 'false'
-        type: choice
-        options:
-          - 'true'
-          - 'false'
 
 env:
   show: true
