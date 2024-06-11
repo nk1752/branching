@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+# deploy to usernode pool
+metadata:
+  name: {{ .Values.appName }}-deployment
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: {{ .Values.appName }}
+spec:
+  
+  replicas: {{ .Values.replicaCount }}
+  
+  selector:
+    matchLabels:
+      app: {{ .Values.appName }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.appName }}
+    spec:
+      
+      containers:
+      - name: {{ .Values.image.name }}
+        image: "{{ .Values.image.repository }}/{{ .Values.image.name }}:{{ .Values.image.tag }}"
+        
+        # setup resources
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "200m"
+          limits:
+              memory: "256Mi"
+              cpu: "400m"
+        # setup probes
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 3000
+          initialDelaySeconds: 20
+          periodSeconds: 5
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 3000
+          initialDelaySeconds: 20
+          periodSeconds: 5
+        
+        ports:
+        - containerPort: 3000
+
+        envFrom:
+        - configMapRef:
+            name: {{ .Values.configMap.name }}
+    
+      nodeSelector:
+        type: user
+        
+          
+          

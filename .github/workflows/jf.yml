@@ -1,0 +1,71 @@
+name: Build and push to Artifactory
+
+on:
+  push:
+    branches:
+      - feature/patch-1
+  workflow_dispatch:
+      
+jobs:
+  helm-lint:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
+
+    steps:
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: helm lint
+        shell: bash
+        run: |
+          echo "Linting the code"
+          helm lint ./bluegreen
+
+      - name: helm template
+        shell: bash
+        run: |
+          echo "Helm templating the code"
+          helm template ./bluegreen
+
+  helm-package-push:
+    runs-on: ubuntu-latest
+    needs: [ helm-lint ]
+
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
+
+    steps:
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup JFrog CLI
+        uses: jfrog/setup-jfrog-cli@v4
+        env:
+          JF_URL: "https://rgnadeem.jfrog.io"
+          JF_USER: "nadeem.khalid@regions.com"
+          JF_PASSWORD: ${{ secrets.JF_PASSWORD }}
+        # with:
+          # jfrog-cli-version: 1.46.1
+
+      - name: check jf cli version
+        run: |
+          jf --version
+          jf rt ping
+
+      - name: helm package push
+        run: |
+      
+          helm package ./bluegreen        
+
+          filename=$(ls -t bluegreen-*.tgz | head -n1)
+          echo "Filename: $filename"
+
+          jf rt upload $filename nk-helm-local/$filename
