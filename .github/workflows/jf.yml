@@ -49,6 +49,7 @@ jobs:
           
 
           echo "Setting the JFrog CLI " > test.txt
+          echo cat test.txt
           
           echo "Pushing the helm package to Artifactory"
-          jfrog rt u test.txt ${{ secrets.JF_URL }}/helm-local --user ${{ secrets.JF_USER }} --password ${{ secrets.JF_PASSWORD }}
+          jf rt u test.txt "https://rgnadeem.jfrog.io/helm-local/" --user ${{ secrets.JF_USER }} --password ${{ secrets.JF_PASSWORD }}
