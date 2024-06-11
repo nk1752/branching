@@ -41,15 +41,27 @@ jobs:
 
       - name: Setup JFrog CLI
         uses: jfrog/setup-jfrog-cli@v4
+        env:
+          JF_URL: "https://rgnadeem.jfrog.io"
+          JF_USER: "nadeem.khalid@regions.com"
+          JF_PASSWORD: ${{ secrets.JF_PASSWORD }}
+        # with:
+          shell: bash
+          run: |
+            jfrog rt config --url $JF_URL --user $JF_USER --password $JF_PASSWORD --interactive=false
+            jfrog rt c show
+            jfrog rt ping
+            jfrog rt --version
+
+            touch test.txt
+            echo "Setting the JFrog CLI " >> test.txt
+            echo cat test.txt
+
+            jfrog rt upload test.txt "https://rgnadeem.jfrog.io/helm-local/" 
+
 
       - name: helm push
         shell: bash
         run: |
           echo "package-name --> ${{ steps.package.outputs.package-name }}"
           
-
-          echo "Setting the JFrog CLI " > test.txt
-          echo cat test.txt
-          
-          echo "Pushing the helm package to Artifactory"
-          jf rt u test.txt "https://rgnadeem.jfrog.io/helm-local/" --user ${{ secrets.JF_USER }} --password ${{ secrets.JF_PASSWORD }}
