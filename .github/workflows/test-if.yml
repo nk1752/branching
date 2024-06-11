@@ -8,6 +8,16 @@ on:
     branches:
       - feature/patch-1
   # Triggers the workflow on push or pull request events but only for the "main" branch
+  workflow_dispatch:
+    inputs:
+      publish:
+        description: 'push to artifactory'
+        required: true
+        default: 'false'
+        type: choice
+        options:
+          - 'true'
+          - 'false'
 
 
 env:
@@ -23,7 +33,7 @@ jobs:
     runs-on: ubuntu-latest
 
     # Steps represent a sequence of tasks that will be executed as part of the job
-    if: (github.ref == 'refs/head/feature/patch-1')
+    if: (github.ref == 'refs/heads/feature/patch-1' || github.event_name == 'workflow_dispatch')
     steps:
         - name: bash if
           shell: bash
