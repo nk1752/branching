@@ -45,19 +45,6 @@ jobs:
 
       - name: Checkout code
         uses: actions/checkout@v4
-          
-      - name: helm package
-        id: package
-        shell: bash
-        run: |
-          echo "Helm packaging the code"
-          helm package ./bluegreen
-
-          filename=bluegreen-0.1.0.tgz
-          echo "Filename: $filename"
-
-          echo package-name=$filename >> $GITHUB_OUTPUT
-          
 
       - name: Setup JFrog CLI
         uses: jfrog/setup-jfrog-cli@v4
@@ -67,28 +54,21 @@ jobs:
           JF_PASSWORD: ${{ secrets.JF_PASSWORD }}
         # with:
           # jfrog-cli-version: 1.46.1
-          
-      - name: Check JFrog CLI version
+
+      - name: check jf cli version
         run: |
           jf --version
           jf rt ping
+          jf rt c show
+
+      - name: helm package push
+        run: |
       
           helm package ./bluegreen        
 
-          filename=bluegreen-0.1.0.tgz
+          filename=bluegreen-0.2.0.tgz
           echo "Filename: $filename"
 
-          echo "building the file"
-          touch test.txt
-          echo "This is sample file " >> test.txt
-          echo "$(<test.txt)"
-
-          jf rt upload test.txt nk-helm-local/test.txt
           jf rt upload test.txt nk-helm-local/$filename
 
-
-      - name: helm push
-        shell: bash
-        run: |
-          echo "package-name --> ${{ steps.package.outputs.package-name }}"
           
