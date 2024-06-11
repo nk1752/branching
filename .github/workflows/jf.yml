@@ -36,7 +36,8 @@ jobs:
           filename=bluegreen-0.1.0.tgz
           echo "Filename: $filename"
 
-          echo package-file=$filename >> $GITHUB_OUTPUT
+          echo package-name=$filename >> $GITHUB_OUTPUT
+          echo package-file=$filename >> $GITHUB_OUTPUT_FILE
 
       - name: Setup JFrog CLI
         uses: jfrog/setup-jfrog-cli@v4
@@ -44,12 +45,10 @@ jobs:
       - name: helm push
         shell: bash
         run: |
-          echo "Helm pushing the code"
-          echo "Package file: $package-file"
-          echo "JF_URL: ${{ secrets.JF_URL }}"
-          echo "JF_USER: ${{ secrets.JF_USER }}"
-          echo "JF_PASSWORD: ${{ secrets.JF_PASSWORD }}"
-          echo "${{ steps.package.outputs.package-file }}"
+          echo "package-name --> ${{ steps.package.outputs.package-name }}"
+          echo "package-file --> ${{ steps.package.outputs.package-file }}"
+
+          echo "Setting the JFrog CLI " > test.txt
           
           echo "Pushing the helm package to Artifactory"
-          jfrog rt u ${{ steps.package.outputs.package-file }} ${{ secrets.JF_URL }}/helm-local --user ${{ secrets.JF_USER }} --password ${{ secrets.JF_PASSWORD }}
+          jfrog rt u test.txt ${{ secrets.JF_URL }}/helm-local --user ${{ secrets.JF_USER }} --password ${{ secrets.JF_PASSWORD }}
