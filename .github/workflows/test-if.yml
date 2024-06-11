@@ -23,17 +23,20 @@ jobs:
     runs-on: ubuntu-latest
 
     # Steps represent a sequence of tasks that will be executed as part of the job
-    if: (github.ref == 'refs/head/feature/patch-1')
+    
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - name: Checkout code
-        uses: actions/checkout@v4
+        - name: bash if
+          shell: bash
+          run: |
+            if [ ${{ github.ref }} == 'feature/patch-1' ]; then
+
+              set -eux
+              echo "message --> ${{ env.message }}"
+
+            fi
       
-      - name: What is the event?
-        id: what
-        shell: bash
-        run: |
-          echo "message --> ${{ env.message }}"
+            
+    
           
           
       
