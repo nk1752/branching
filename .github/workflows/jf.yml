@@ -78,7 +78,7 @@ jobs:
             echo "This is sample file " >> test.txt
             echo "$(<test.txt)"
 
-            jf rt upload test.txt nk-helm-local/ 
+            jf rt upload test.txt nk-helm-local/test.txt
 
 
       - name: helm push
