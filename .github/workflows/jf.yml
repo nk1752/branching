@@ -59,7 +59,6 @@ jobs:
         run: |
           jf --version
           jf rt ping
-          jf rt c show
 
       - name: helm package push
         run: |
@@ -70,5 +69,3 @@ jobs:
           echo "Filename: $filename"
 
           jf rt upload test.txt nk-helm-local/$filename
-
-          
