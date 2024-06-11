@@ -68,4 +68,4 @@ jobs:
           filename=bluegreen-0.2.0.tgz
           echo "Filename: $filename"
 
-          jf rt upload test.txt nk-helm-local/$filename
+          jf rt upload filename nk-helm-local/$filename
