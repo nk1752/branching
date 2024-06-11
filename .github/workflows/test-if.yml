@@ -23,20 +23,16 @@ jobs:
     runs-on: ubuntu-latest
 
     # Steps represent a sequence of tasks that will be executed as part of the job
-    
+    if: (github.ref == 'refs/heads/feature/patch-1')
     steps:
         - name: bash if
           shell: bash
           run: |
-            echo "Checking if condition"
+            set -eux
+
             echo "ref --> ${{ github.ref }}"
+            echo "message --> ${{ env.message }}"
 
-            if [ ${{ github.ref }} == 'refs/heads/feature/patch-1' ]; then
-
-              set -eux
-              echo "message --> ${{ env.message }}"
-
-            fi
       
             
     
