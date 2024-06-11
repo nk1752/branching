@@ -7,8 +7,14 @@ on:
   workflow_dispatch:
       
 jobs:
-  build-and-tag:
+  helm-lint:
     runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -24,6 +30,16 @@ jobs:
         run: |
           echo "Helm templating the code"
           helm template ./bluegreen
+
+  helm-package-push:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
+
+    steps:
           
 
       - name: helm package
@@ -53,11 +69,12 @@ jobs:
             jfrog rt ping
             jfrog rt --version
 
+            echo "building the file"
             touch test.txt
             echo "Setting the JFrog CLI " >> test.txt
             echo cat test.txt
 
-            jfrog rt upload test.txt "https://rgnadeem.jfrog.io/helm-local/" 
+            jfrog rt upload test.txt nk-helm/ 
 
 
       - name: helm push
