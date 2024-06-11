@@ -16,7 +16,7 @@ jobs:
       id-token: write
 
     steps:
-      
+
       - name: Checkout code
         uses: actions/checkout@v4
 
@@ -68,17 +68,17 @@ jobs:
         # with:
           shell: bash
           run: |
-            jfrog rt config --url $JF_URL --user $JF_USER --password $JF_PASSWORD --interactive=false
-            jfrog rt c show
-            jfrog rt ping
-            jfrog rt --version
+            jf rt config --url $JF_URL --user $JF_USER --password $JF_PASSWORD --interactive=false
+            jf rt c show
+            jf rt ping
+            jf rt --version
 
             echo "building the file"
             touch test.txt
-            echo "Setting the JFrog CLI " >> test.txt
-            echo cat test.txt
+            echo "This is sample file " >> test.txt
+            echo "$(<test.txt)"
 
-            jfrog rt upload test.txt nk-helm/ 
+            jf rt upload test.txt nk-helm-local/ 
 
 
       - name: helm push
