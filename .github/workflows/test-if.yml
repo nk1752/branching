@@ -31,7 +31,7 @@ jobs:
             echo "Checking if condition"
             echo "ref --> ${{ github.ref }}"
 
-            if [ ${{ github.ref }} == 'feature/patch-1' ]; then
+            if [ ${{ github.ref }} == 'refs/heads/feature/patch-1' ]; then
 
               set -eux
               echo "message --> ${{ env.message }}"
