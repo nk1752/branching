@@ -67,25 +67,24 @@ jobs:
           JF_PASSWORD: ${{ secrets.JF_PASSWORD }}
         # with:
           # jfrog-cli-version: 1.46.1
-          run: |
-            echo "test JFrog CLI setup"
-            jf rt --version
-            jf rt c show
-            jf rt ping
-
+          
+      - name: Check JFrog CLI version
+        run: |
+          jf --version
+          jf rt ping
       
-            helm package ./bluegreen        
+          helm package ./bluegreen        
 
-            filename=bluegreen-0.1.0.tgz
-            echo "Filename: $filename"
+          filename=bluegreen-0.1.0.tgz
+          echo "Filename: $filename"
 
-            echo "building the file"
-            touch test.txt
-            echo "This is sample file " >> test.txt
-            echo "$(<test.txt)"
+          echo "building the file"
+          touch test.txt
+          echo "This is sample file " >> test.txt
+          echo "$(<test.txt)"
 
-            jf rt upload test.txt nk-helm-local/test.txt
-            jf rt upload test.txt nk-helm-local/$filename
+          jf rt upload test.txt nk-helm-local/test.txt
+          jf rt upload test.txt nk-helm-local/$filename
 
 
       - name: helm push
