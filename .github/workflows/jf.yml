@@ -68,4 +68,4 @@ jobs:
           filename=$(ls -t bluegreen-*.tgz | head -n1)
           echo "Filename: $filename"
 
-          jf rt upload filename nk-helm-local/$filename
+          jf rt upload $filename nk-helm-local/$filename
