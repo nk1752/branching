@@ -44,7 +44,7 @@ jobs:
         shell: bash
         run: |
           
-          if [ ${{ github.event_name }} == 'push' ]; then
+          if [[ ${{ github.event_name }} == 'push' ] || [ ${{ github.ref }} == 'feature/patch-1' ]]; then
             echo "This is a push event"
             EVENT_NAME="push"
             SHOW_NO_SHOW="${{ env.show }}"
