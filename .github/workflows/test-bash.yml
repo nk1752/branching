@@ -20,7 +20,7 @@ on:
           - 'false'
 
 env:
-  show: "true"
+  show: true
   event_name: ""
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
@@ -73,7 +73,7 @@ jobs:
           SHOW_NO_SHOW=${{ steps.what.outputs.SHOW_NO_SHOW }}
           echo "show no show --> $SHOW_NO_SHOW"
           
-          if [ ${SHOW_NO_SHOW} == 'true' ]; then
+          if [ ${SHOW_NO_SHOW} == true ]; then
             echo "$message"
           else
             echo "Goodbye, world!"
