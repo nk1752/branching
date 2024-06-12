@@ -40,7 +40,7 @@ jobs:
       contents: read
       packages: write
       id-token: write
-
+    if: (github.ref == 'refs/heads/feature/patch-b')
     steps:
 
       - name: Checkout code
