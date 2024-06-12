@@ -4,7 +4,16 @@ on:
   push:
     branches:
       - feature/patch-1
+      - main
+  pull_request:
+    branches:
+      - feature/patch-1
+      - main  
   workflow_dispatch:
+
+env:
+  JFROG_CLI_OFFER_CONFIG: false
+  PACKAGE_NAME: bluegreen
       
 jobs:
   helm-lint:
@@ -24,13 +33,13 @@ jobs:
         shell: bash
         run: |
           echo "Linting the code"
-          helm lint ./bluegreen
+          helm lint ./${{ env.PACKAGE_NAME }}
 
       - name: helm template
         shell: bash
         run: |
           echo "Helm templating the code"
-          helm template ./bluegreen
+          helm template ./${{ env.PACKAGE_NAME }}
 
   helm-package-push:
     runs-on: ubuntu-latest
@@ -63,9 +72,9 @@ jobs:
       - name: helm package push
         run: |
       
-          helm package ./bluegreen        
+          helm package ${{ env.PACKAGE_NAME }}        
 
-          filename=$(ls -t bluegreen-*.tgz | head -n1)
+          filename=$(ls -t ${{ env.PACKAGE_NAME }}-*.tgz | head -n1)
           echo "Filename: $filename"
 
           jf rt upload $filename nk-helm-local/$filename
