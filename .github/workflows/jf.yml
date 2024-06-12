@@ -26,13 +26,13 @@ jobs:
         shell: bash
         run: |
           echo "Linting the code"
-          helm lint ./bluegreen
+          helm lint ./${{ env.PACKAGE_NAME }}
 
       - name: helm template
         shell: bash
         run: |
           echo "Helm templating the code"
-          helm template ./bluegreen
+          helm template ./${{ env.PACKAGE_NAME }}
 
   helm-package-push:
     runs-on: ubuntu-latest
@@ -63,10 +63,10 @@ jobs:
 
       - name: helm package push
         run: |
-
           helm package ./bluegreen        
 
-          filename=$(ls -t bluegreen-*.tgz | head -n1)
+          filename=$(ls -t ${{ env.PACKAGE_NAME }}-*.tgz | head -n1)
           echo "Filename: $filename"
 
           jf rt upload $filename ${{ env.RF_REPO }} --build-name=bluegreen --build-number=1
+
