@@ -14,7 +14,7 @@ on:
 env:
   JFROG_CLI_OFFER_CONFIG: false
   PACKAGE_NAME: bluegreen
-  JF_REPO: local-helm/
+  JF_REPO: nk-collection/
       
 jobs:
   helm-lint:
