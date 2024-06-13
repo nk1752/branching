@@ -3,7 +3,10 @@ name: Build and push to Artifactory
 on:
   push:
     branches:
-      - feature/patch-b
+      - feature/patch-c
+  pull_request:
+    branches:
+      - feature/patch-c
   workflow_dispatch:
 
 env:
