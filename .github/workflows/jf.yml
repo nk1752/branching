@@ -3,11 +3,15 @@ name: Build and push to Artifactory
 on:
   push:
     branches:
-      - feature/patch-b
+      - feature/patch-c
+  pull_request:
+    branches:
+      - feature/patch-c
   workflow_dispatch:
 
 env:
   RF_REPO: "nk-collection/"
+  PACKAGE_NAME: "bluegreen"
 
 jobs:
   helm-lint:
@@ -42,7 +46,7 @@ jobs:
       contents: read
       packages: write
       id-token: write
-    if: (github.ref == 'refs/heads/feature/patch-b')
+    if: ( github.ref == 'refs/heads/feature/patch-c' && github.event_name != 'pull_request' && github.ref != 'refs/heads/master' )
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
