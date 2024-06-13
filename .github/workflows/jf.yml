@@ -8,6 +8,7 @@ on:
 
 env:
   RF_REPO: "nk-collection/"
+  PACKAGE_NAME: "bluegreen"
 
 jobs:
   helm-lint:
@@ -42,7 +43,7 @@ jobs:
       contents: read
       packages: write
       id-token: write
-    if: (github.ref == 'refs/heads/feature/patch-b')
+    if: ( github.ref == 'refs/heads/feature/patch-c' && github.event_name != 'pull_request' && github.ref != 'refs/heads/master' )
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
