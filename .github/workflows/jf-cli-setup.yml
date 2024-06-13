@@ -1,11 +1,11 @@
-name: echo
+name: Jfrog cli setup
 
 on:
   workflow_dispatch:
   
 
 env:
-  show: "true"
+  show: true
   branch: ${{ github.ref }}
 
 jobs:
@@ -23,7 +23,7 @@ jobs:
       - name: bash shell
         shell: bash
         run: |
-          if [ "${{ env.show }}" == "true" ]; then
+          if [ ${{ env.show }} ]; then
               echo "${{ env.branch }}"
           else
               echo "Goodbye, world!"
