@@ -1,4 +1,4 @@
-name: echo
+name: Jfrog cli setup
 
 on:
   workflow_dispatch:
