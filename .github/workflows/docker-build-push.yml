@@ -78,6 +78,10 @@ jobs:
     
       - name: push to ARTIFACTORY
         run: |
-          filename=$(ls -t ${{ env.IMAGE_NAME }}:* | head -n1)
-          jf rt upload $filename ${{ env.RF_REPO }} --build-name=$filename --build-number=1
+          echo "get docker image name: ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}"
+          docker images
+          docker tag ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} ${{ env.RF_REPO }}${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
+          filename=$(docker inspect --format='{{index .RepoDigests 0}}' ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} | cut -d '@' -f 2)
+          echo "filename: $filename"
+          jf rt upload $filename ${{ env.RF_REPO }}
 
