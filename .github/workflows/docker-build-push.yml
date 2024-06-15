@@ -55,7 +55,7 @@ jobs:
         
       - name: build docker image
         run: |
-          docker build -f ./dockerfiles/Dockerfile.dev -t ${{ env.IMAGE_NAME}}:${{ env.IMAGE_TAG }} .
+          docker build -f ./dockerfiles/Dockerfile.dev -t ${{ env.IMAGE_NAME}}:${{ env.IMAGE_TAG }} ./local-docker
           docker images
 
       - name: login to Jfrog
@@ -79,4 +79,10 @@ jobs:
         run: |
           jf --version
           jf rt ping
+
+      # push image to jfrog registry using jf rt command
+      - name: push image to JFrog
+        run: |
+          jf rt dp ${{ env.JF_URL }} docker-build 1.0.0
+          jf rt dp ${{ env.JF_URL }} ./loacl-docker
         
