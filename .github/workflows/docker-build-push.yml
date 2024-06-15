@@ -18,9 +18,9 @@ env:
   show: true
   event_name: ""
   message: "This is a test message"
-  RF_REPO: "nk-collection"
-  RF_URL: "https://rgnadeem.jfrog.io"
-  RF_USER: "nadeem.khalid@regions.com"
+  JF_REPO: "nk-collection"
+  JF_URL: "https://rgnadeem.jfrog.io"
+  JF_USER: "nadeem.khalid@regions.com"
   PACKAGE_NAME: "bluegreen"
   IMAGE_NAME: "node-base-image"
   IMAGE_TAG: "v1"
@@ -44,7 +44,7 @@ jobs:
           echo "event_name: ${{ github.event_name }}"
           echo "message: ${{ env.message }}"
           echo "publish: ${{ github.event.inputs.publish }}"
-          echo "RF_REPO: ${{ env.RF_REPO }}"
+          echo "RF_REPO: ${{ env.JF_REPO }}"
           echo "PACKAGE_NAME: ${{ env.PACKAGE_NAME }}"
           echo "IMAGE_NAME: ${{ env.IMAGE_NAME }}"
           echo "IMAGE_TAG: ${{ env.IMAGE_TAG }}"
@@ -87,6 +87,8 @@ jobs:
           # docker tage for artifactory
 
           echo "*********Docker image pushed to artifactory*********"
+
+          docker login -u ${{ env.JF_USER }} -p ${{ secrets.JF_PASSWORD }} rgnadeem.jfrog.io --non-interactive
           
           docker tag ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} rgnadeem.jfrog.io/local-docker/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
           docker push rgnadeem.jfrog.io/local-docker/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
