@@ -1,0 +1,77 @@
+on:
+  push:
+    branches:
+      - feature/patch-c
+  workflow_dispatch:
+    inputs:
+      publish:
+        description: "push to artifactory"
+        required: true
+        default: "false"
+        type: choice
+        options:
+          - "true"
+          - "false"
+env:
+  show: true
+  event_name: ""
+  message: "This is a test message"
+  RF_REPO: "nk-collection/"
+  PACKAGE_NAME: "bluegreen"
+  IMAGE_NAME: "node-base-image"
+  IMAGE_TAG: "v1"
+
+
+jobs:
+  build-push:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+      packages: write
+      id-token: write
+
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+
+      - name: display workflow input
+        run: |
+          echo "event_name: ${{ github.event_name }}"
+          echo "message: ${{ env.message }}"
+          echo "publish: ${{ github.event.inputs.publish }}"
+          echo "RF_REPO: ${{ env.RF_REPO }}"
+          echo "PACKAGE_NAME: ${{ env.PACKAGE_NAME }}"
+          echo "IMAGE_NAME: ${{ env.IMAGE_NAME }}"
+          echo "IMAGE_TAG: ${{ env.IMAGE_TAG }}"
+      
+        # build docker image from Dockerfile
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+        with:
+          driver-opts: name=builder0
+          
+      - name: build
+        run: |
+            docker buildx -f ./dockerfiles/Dockerfile.dev -t ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} .
+            docker buildx imagetools inspect ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
+
+      - name: Setup JFrog CLI
+        uses: jfrog/setup-jfrog-cli@v4
+        env:
+          JF_URL: "https://rgnadeem.jfrog.io"
+          JF_USER: "nadeem.khalid@regions.com"
+          JF_PASSWORD: ${{ secrets.JF_PASSWORD }}
+          # with:
+          # jfrog-cli-version: 1.46.1
+    
+      - name: check jf cli version
+        run: |
+          jf --version
+          jf rt ping
+    
+      - name: push to ARTIFACTORY
+        run: |
+          filename=${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
+          jf rt upload $filename ${{ env.RF_REPO }} --build-name=bluegreen --build-number=1
+
