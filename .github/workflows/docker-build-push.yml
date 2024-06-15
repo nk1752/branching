@@ -18,7 +18,7 @@ env:
   show: true
   event_name: ""
   message: "This is a test message"
-  RF_REPO: "registory-1-docker-local"
+  RF_REPO: "nk-collection"
   PACKAGE_NAME: "bluegreen"
   IMAGE_NAME: "node-base-image"
   IMAGE_TAG: "v1"
