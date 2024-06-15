@@ -18,7 +18,7 @@ env:
   show: true
   event_name: ""
   message: "This is a test message"
-  RF_REPO: "registory-1-docker-local/"
+  RF_REPO: "registory-1-docker-local"
   PACKAGE_NAME: "bluegreen"
   IMAGE_NAME: "node-base-image"
   IMAGE_TAG: "v1"
@@ -79,8 +79,8 @@ jobs:
       - name: push to ARTIFACTORY
         run: |
           # docker tage for artifactory
-          docker tag ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} ${{ env.RF_REPO }}
-          docker push ${{ env.RF_REPO }}
+          docker tag ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} ${{ env.RF_REPO }}:${{ env.IMAGE_TAG }}
+          docker push ${{ env.RF_REPO }}:${{ env.IMAGE_TAG }}
           
           
 
