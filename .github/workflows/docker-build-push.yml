@@ -67,8 +67,8 @@ jobs:
       - name: Setup JFrog CLI
         uses: jfrog/setup-jfrog-cli@v4
         env:
-          JF_URL: ${{ env.RF_URL }}
-          JF_USER: ${{ env.RF_USER}}
+          JF_URL: "https://rgnadeem.jfrog.io"
+          JF_USER: "nadeem.khalid@regions.com"
           JF_PASSWORD: ${{ secrets.JF_PASSWORD }}
           # with:
           # jfrog-cli-version: 1.46.1
@@ -87,7 +87,7 @@ jobs:
           # docker tage for artifactory
 
           echo "*********Docker image pushed to artifactory*********"
-          docker login -u nadeem.khalid@regions.com rgnadeem.jfrog.io
+          
           docker tag ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} rgnadeem.jfrog.io/local-docker/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
           docker push rgnadeem.jfrog.io/local-docker/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
           
