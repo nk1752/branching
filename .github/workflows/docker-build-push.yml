@@ -54,6 +54,12 @@ jobs:
       - name: docker build
         run: |
             docker build -f ./dockerfiles/Dockerfile.dev -t ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} .
+
+      - name: display docker images
+        run: |
+            echo "*********Docker image built successfully*********"
+            echo "*********Docker image name: ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}*********"
+            echo "*********image list*********"
             docker images
 
       - name: Setup JFrog CLI
