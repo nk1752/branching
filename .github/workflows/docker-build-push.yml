@@ -23,7 +23,7 @@ env:
   JF_USER: "nadeem.khalid@regions.com"
   PACKAGE_NAME: "bluegreen"
   IMAGE_NAME: "node-base-image"
-  IMAGE_TAG: "v1"
+  IMAGE_TAG: "v2.0.0"
 
 
 jobs:
@@ -65,5 +65,5 @@ jobs:
           mkdir -p ./local-docker
           docker build -f ./dockerfiles/Dockerfile.dev -t ${{ env.IMAGE_NAME}} .
           docker images
-          docker tag ${{ env.IMAGE_NAME}} rgnadeem.jfrog.io/local-docker/${{ env.IMAGE_NAME}}
-          docker push rgnadeem.jfrog.io/local-docker/${{ env.IMAGE_NAME}}
+          docker tag ${{ env.IMAGE_NAME}} rgnadeem.jfrog.io/local-docker/${{ env.IMAGE_NAME}}:${{ env.IMAGE_TAG}}
+          docker push rgnadeem.jfrog.io/local-docker/${{ env.IMAGE_NAME}}:${{ env.IMAGE_TAG}}
