@@ -18,7 +18,7 @@ env:
   show: true
   event_name: ""
   message: "This is a test message"
-  RF_REPO: "nk-collection/"
+  RF_REPO: "registory-1-docker-local/"
   PACKAGE_NAME: "bluegreen"
   IMAGE_NAME: "node-base-image"
   IMAGE_TAG: "v1"
@@ -73,5 +73,5 @@ jobs:
       - name: push to ARTIFACTORY
         run: |
           filename=${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
-          jf rt upload $filename ${{ env.RF_REPO }} --build-name=bluegreen --build-number=1
+          jf rt upload $filename ${{ env.RF_REPO }} --build-name=$filename --build-number=1
 
