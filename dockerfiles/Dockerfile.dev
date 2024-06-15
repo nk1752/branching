@@ -1,5 +1,8 @@
 # pull ubuntu 20.04 base image
-FROM ubuntu:20.04
+FROM ubuntu:22.04
+
+# install nodejs
+RUN apt update && apt install nodejs -y
 
 # check node version
 RUN node -v
@@ -8,4 +11,4 @@ RUN node -v
 RUN npm -v
 
 # remove node & npm
-RUN apt remove nodejs npm -y
+# RUN apt remove nodejs npm -y
