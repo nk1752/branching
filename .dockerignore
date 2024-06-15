@@ -1,0 +1,16 @@
+# Ignore files and directories that should not be included in the Docker image
+
+# Ignore specific files
+file.txt
+secret.key
+
+# Ignore directories
+logs/
+tmp/
+
+# Ignore files with specific extensions
+*.log
+*.tmp
+
+# Ignore all files and directories in a specific directory
+build/

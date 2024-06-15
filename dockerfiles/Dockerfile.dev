@@ -2,7 +2,7 @@
 FROM ubuntu:22.04
 
 # install nodejs
-RUN apt update && apt install nodejs -y
+RUN apt update && apt install nodejs npm -y
 
 # check node version
 RUN node -v
