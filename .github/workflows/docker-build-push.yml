@@ -88,8 +88,8 @@ jobs:
 
           echo "*********Docker image pushed to artifactory*********"
 
-          docker tag ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} rgnadeem.jfrog.io/local-docker/${{ env.RF_REPO }}:${{ env.IMAGE_TAG }}
-          docker push rgnadeem.jfrog.io/local-docker/${{ env.RF_REPO }}:${{ env.IMAGE_TAG }}
+          docker tag ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} rgnadeem.jfrog.io/local-docker/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
+          docker push rgnadeem.jfrog.io/local-docker/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
           
           
 
