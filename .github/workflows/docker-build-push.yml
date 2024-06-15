@@ -19,6 +19,8 @@ env:
   event_name: ""
   message: "This is a test message"
   RF_REPO: "nk-collection"
+  RF_URL: "https://rgnadeem.jfrog.io"
+  RF_USER: "nadeem.khalid@regions.com"
   PACKAGE_NAME: "bluegreen"
   IMAGE_NAME: "node-base-image"
   IMAGE_TAG: "v1"
@@ -65,9 +67,9 @@ jobs:
       - name: Setup JFrog CLI
         uses: jfrog/setup-jfrog-cli@v4
         env:
-          JF_URL: "https://rgnadeem.jfrog.io"
-          JF_USER: "nadeem.khalid@regions.com"
-          JF_PASSWORD: ${{ secrets.JF_PASSWORD }}
+          JF_URL: ${{ env.RF_URL }}
+          JF_USER: ${{ env.RF_USER}}
+          JF_PASSWORD: ${{ secrets.JF_DOCKER_ACCESS_TOKEN }}
           # with:
           # jfrog-cli-version: 1.46.1
     
@@ -76,11 +78,18 @@ jobs:
           jf --version
           jf rt ping
     
+        # docker login -unadeem.khalid@regions.com rgnadeem.jfrog.io
+        # docker tag <IMAGE_ID> rgnadeem.jfrog.io/local-docker/<DOCKER_IMAGE>:<DOCKER_TAG>
+        # docker push rgnadeem.jfrog.io/local-docker/<DOCKER_IMAGE>:<DOCKER_TAG>
+        # docker pull rgnadeem.jfrog.io/local-docker/<DOCKER_IMAGE>:<DOCKER_TAG>
       - name: push to ARTIFACTORY
         run: |
           # docker tage for artifactory
-          docker tag ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} ${{ env.RF_REPO }}:${{ env.IMAGE_TAG }}
-          docker push ${{ env.RF_REPO }}:${{ env.IMAGE_TAG }}
+
+          echo "*********Docker image pushed to artifactory*********"
+
+          docker tag ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} rgnadeem.jfrog.io/local-docker/${{ env.RF_REPO }}:${{ env.IMAGE_TAG }}
+          docker push rgnadeem.jfrog.io/local-docker/${{ env.RF_REPO }}:${{ env.IMAGE_TAG }}
           
           
 
