@@ -63,8 +63,8 @@ jobs:
       - name: build docker image
         run: |
           mkdir -p ./local-docker
-          docker buildx -f ./dockerfiles/Dockerfile.dev -t ${{ env.IMAGE_NAME}} .
+          docker buildx build -f ./dockerfiles/Dockerfile.dev -t ${{ env.IMAGE_NAME}} .
           docker images
-          docker tag ${{ env.IMAGE_NAME}} rgnadeem.jfrog.io/local-docker/${{ env.IMAGE_NAME}}:${{ env.IMAGE_TAG}}
-          docker push rgnadeem.jfrog.io/local-docker/${{ env.IMAGE_NAME}}:${{ env.IMAGE_TAG}}
-          docker push build-info --build-name=${{ github.job }} --build-number=${{ github.run_number }}
+          docker buildx tag ${{ env.IMAGE_NAME}} rgnadeem.jfrog.io/local-docker/${{ env.IMAGE_NAME}}:${{ env.IMAGE_TAG}}
+          docker buildx push rgnadeem.jfrog.io/local-docker/${{ env.IMAGE_NAME}}:${{ env.IMAGE_TAG}}
+          docker buildx push build-info --build-name=${{ github.job }} --build-number=${{ github.run_number }}
