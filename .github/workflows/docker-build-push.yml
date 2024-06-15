@@ -63,7 +63,7 @@ jobs:
       - name: build docker image
         run: |
           mkdir -p ./local-docker
-          docker build -f ./dockerfiles/Dockerfile.dev -t ${{ env.IMAGE_NAME}}:${{ env.IMAGE_TAG }} .
+          docker build -f ./dockerfiles/Dockerfile.dev -t ${{ env.IMAGE_NAME}} .
           docker images
-          docker tag ${{ env.IMAGE_NAME}} rgnadeem.jfrog.io/local-docker/nod-base:v2
-          docker push ${{ env.JF_URL }}/${{ env.JF_REPO }}/${{ env.IMAGE_NAME}}:${{ env.IMAGE_TAG }}
+          docker tag ${{ env.IMAGE_NAME}} rgnadeem.jfrog.io/local-docker/${{ env.IMAGE_NAME}}
+          docker push rgnadeem.jfrog.io/local-docker/${{ env.IMAGE_NAME}}
