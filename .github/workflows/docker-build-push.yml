@@ -78,6 +78,6 @@ jobs:
     
       - name: push to ARTIFACTORY
         run: |
-          filename=${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
+          filename=$(ls -t ${{ env.IMAGE_NAME }}:* | head -n1)
           jf rt upload $filename ${{ env.RF_REPO }} --build-name=$filename --build-number=1
 
