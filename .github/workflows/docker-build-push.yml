@@ -27,7 +27,7 @@ env:
 
 
 jobs:
-  build-push:
+  docker-build-push:
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -67,4 +67,29 @@ jobs:
           docker images
           docker tag ${{ env.IMAGE_NAME}} rgnadeem.jfrog.io/local-docker/${{ env.IMAGE_NAME}}:${{ env.IMAGE_TAG}}
           docker push rgnadeem.jfrog.io/local-docker/${{ env.IMAGE_NAME}}:${{ env.IMAGE_TAG}}
-          docker push build-info --build-name=${{ github.job }} --build-number=${{ github.run_number }}
+          
+  Podman-build-push:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+      packages: write
+      id-token: write
+
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+
+      - name: Podman login to Jfrog
+        uses: redhat-actions/podman-login@v1
+        with:
+          username: ${{ env.JF_USER }}
+          password: ${{ secrets.JF_DOCKER_ACCESS_TOKEN }}
+          registry: ${{ env.JF_URL }}
+        
+      - name: Podman build & push image
+        run: |
+          podman build -f ./dockerfiles/Dockerfile.dev -t ${{ env.IMAGE_NAME}} .
+          podman images
+          podman tag ${{ env.IMAGE_NAME}} rgnadeem.jfrog.io/local-docker/${{ env.IMAGE_NAME}}:v3.0.0
+          podman push rgnadeem.jfrog.io/local-docker/${{ env.IMAGE_NAME}}:v3.0.0
