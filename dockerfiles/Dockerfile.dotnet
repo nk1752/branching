@@ -17,5 +17,9 @@ RUN dpkg -i packages-microsoft-prod.deb
 RUN apt-get update && apt-get install -y --no-install-recommends \
     dotnet-runtime-8.0
 
+# Install .NET SDK
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    dotnet-sdk-8.0
+    
 # Set the working directory
 WORKDIR /app
