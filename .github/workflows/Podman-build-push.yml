@@ -1,0 +1,60 @@
+name: Podman Build and Push
+
+on:
+  push:
+    branches:
+      - feature/patch-c
+  workflow_dispatch:
+    inputs:
+      publish:
+        description: "push to artifactory"
+        required: true
+        default: "false"
+        type: choice
+        options:
+          - "true"
+          - "false"
+
+env:
+  show: true
+  event_name: ""
+  message: "This is a test message"
+  JF_REPO: "local-docker"
+  JF_URL: "https://rgnadeem.jfrog.io"
+  JF_USER: "nadeem.khalid@regions.com"
+  PACKAGE_NAME: "bluegreen"
+  IMAGE_NAME: "node-base-image"
+  IMAGE_TAG: "v2.0.0"
+
+
+jobs:
+  podman-build-push:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+      packages: write
+      id-token: write
+
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+      
+      - name: Build Image
+        id: build-image
+        uses: redhat-actions/buildah-build@v2
+        with:
+          image: ${{ env.IMAGE_NAME}}
+          tags: latest ${{ github.sha }}
+          containerfiles: |
+            ./dockerfiles/Containerfile.dev
+
+      - name: Push To quay.io
+        id: push-to-JF
+        uses: redhat-actions/push-to-registry@v2
+        with:
+          image: ${{ steps.build-image.outputs.image }}
+          tags: ${{ steps.build-image.outputs.tags }}
+          registry: ${{ env.JF_URL }}
+          username: ${{env.JF_USER }}
+          password: ${{ secrets.JF_DOCKER_ACCESS_TOKEN }}

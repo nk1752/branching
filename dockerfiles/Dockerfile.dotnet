@@ -1,0 +1,21 @@
+FROM ubuntu:22.04 as base
+
+# Install dependencies
+RUN apt-get update && apt-get install -y \
+    curl \
+    wget \
+    apt-transport-https \
+    lsb-release \
+    gnupg \
+    ca-certificates
+
+# Add Microsoft package signing key
+RUN wget https://packages.microsoft.com/config/ubuntu/22.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
+RUN dpkg -i packages-microsoft-prod.deb
+
+# Install .NET SDK
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    dotnet-runtime-8.0
+
+# Set the working directory
+WORKDIR /app

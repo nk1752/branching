@@ -1,4 +1,4 @@
-name: Docker Build and Push
+name: dotnet 8 on ubuntu 22
 
 on:
   push:
@@ -22,7 +22,7 @@ env:
   JF_URL: "https://rgnadeem.jfrog.io"
   JF_USER: "nadeem.khalid@regions.com"
   PACKAGE_NAME: "bluegreen"
-  IMAGE_NAME: "node-base-image"
+  IMAGE_NAME: "dotnet-base-image"
   IMAGE_TAG: "v2.0.0"
 
 
@@ -38,16 +38,6 @@ jobs:
     steps:
       - name: checkout
         uses: actions/checkout@v4
-
-      - name: display workflow input
-        run: |
-          echo "event_name: ${{ github.event_name }}"
-          echo "message: ${{ env.message }}"
-          echo "publish: ${{ github.event.inputs.publish }}"
-          echo "RF_REPO: ${{ env.JF_REPO }}"
-          echo "PACKAGE_NAME: ${{ env.PACKAGE_NAME }}"
-          echo "IMAGE_NAME: ${{ env.IMAGE_NAME }}"
-          echo "IMAGE_TAG: ${{ env.IMAGE_TAG }}"
       
         # build docker image from Dockerfile
       - name: Set up Docker Buildx
@@ -63,7 +53,7 @@ jobs:
       - name: build docker image
         run: |
           mkdir -p ./local-docker
-          docker build -f ./dockerfiles/Dockerfile.dev -t ${{ env.IMAGE_NAME}} .
+          docker build -f ./dockerfiles/Dockerfile.dotnet -t ${{ env.IMAGE_NAME}} .
           docker images
           docker tag ${{ env.IMAGE_NAME}} rgnadeem.jfrog.io/local-docker/${{ env.IMAGE_NAME}}:${{ env.IMAGE_TAG}}
           docker push rgnadeem.jfrog.io/local-docker/${{ env.IMAGE_NAME}}:${{ env.IMAGE_TAG}}
