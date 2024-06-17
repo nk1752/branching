@@ -23,7 +23,7 @@ env:
   JF_USER: "nadeem.khalid@regions.com"
   PACKAGE_NAME: "bluegreen"
   IMAGE_NAME: "dotnet-base-image"
-  IMAGE_TAG: "v2.0.0"
+  IMAGE_TAG: "v2.1.0"
 
 
 jobs:

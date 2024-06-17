@@ -1,6 +1,6 @@
 FROM ubuntu:22.04 as base
 
-# Install dependencies
+RUN echo "*************** Install dependencies ***************"
 RUN apt-get update && apt-get install -y \
     curl \
     wget \
@@ -9,17 +9,19 @@ RUN apt-get update && apt-get install -y \
     gnupg \
     ca-certificates
 
-# Add Microsoft package signing key
+RUN echo "**************** Add Microsoft package signing key ***************"
 RUN wget https://packages.microsoft.com/config/ubuntu/22.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
 RUN dpkg -i packages-microsoft-prod.deb
 
-# Install .NET SDK
+FROM base as runtime
+COPY --from=base . .
+RUN echo "************ Install .NET runtime ************"
 RUN apt-get update && apt-get install -y --no-install-recommends \
     dotnet-runtime-8.0
 
-# Install .NET SDK
+RUN echo "************** Install .NET SDK **************"
 RUN apt-get update && apt-get install -y --no-install-recommends \
     dotnet-sdk-8.0
-    
+
 # Set the working directory
 WORKDIR /app
