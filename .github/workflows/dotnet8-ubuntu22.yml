@@ -53,24 +53,24 @@ jobs:
         
       - name: build docker image - sdk
         run: |
-          mkdir -p ./local-docker
-          docker build -f ./${{env.PROJECT_NAME}}/Dockerfile.sdk -t ${{ env.IMAGE_NAME}} .
+          image_name="dotnet-sdk-8-ubuntu22"
+          docker build -f ./${{env.PROJECT_NAME}}/Dockerfile.sdk -t $image_name .
           docker images
-          docker tag ${{ env.IMAGE_NAME}} rgnadeem.jfrog.io/local-docker/${{ env.IMAGE_NAME}}:${{ env.IMAGE_TAG}}
-          docker push rgnadeem.jfrog.io/local-docker/${{ env.IMAGE_NAME}}:${{ env.IMAGE_TAG}}
+          docker tag $image_name rgnadeem.jfrog.io/local-docker/$image_name:${{ env.IMAGE_TAG}}
+          docker push rgnadeem.jfrog.io/local-docker/$image_name:${{ env.IMAGE_TAG}}
 
       - name: build docker image - runtime
         run: |
-          mkdir -p ./local-docker
-          docker build -f ./${{env.PROJECT_NAME}}/Dockerfile.runtime -t ${{ env.IMAGE_NAME}} .
+          image_name="dotnet-runtime-8-ubuntu22"
+          docker build -f ./${{env.PROJECT_NAME}}/Dockerfile.runtime -t $image_name .
           docker images
-          docker tag ${{ env.IMAGE_NAME}} rgnadeem.jfrog.io/local-docker/dotnet/${{ env.IMAGE_NAME}}:${{ env.IMAGE_TAG}}
-          docker push rgnadeem.jfrog.io/local-docker/dotnet/${{ env.IMAGE_NAME}}:${{ env.IMAGE_TAG}}
+          docker tag $image_name rgnadeem.jfrog.io/local-docker/$image_name:${{ env.IMAGE_TAG}}
+          docker push rgnadeem.jfrog.io/local-docker/$image_name:${{ env.IMAGE_TAG}}
 
       - name: build docker image - aspnet
         run: |
-          mkdir -p ./local-docker
-          docker build -f ./${{env.PROJECT_NAME}}/Dockerfile.aspnet -t ${{ env.IMAGE_NAME}} .
+          image_name="dotnet-aspnet-8-ubuntu22"
+          docker build -f ./${{env.PROJECT_NAME}}/Dockerfile.aspnet -t $image_name .
           docker images
-          docker tag ${{ env.IMAGE_NAME}} rgnadeem.jfrog.io/local-docker/${{ env.IMAGE_NAME}}:${{ env.IMAGE_TAG}}
-          docker push rgnadeem.jfrog.io/local-docker/${{ env.IMAGE_NAME}}:${{ env.IMAGE_TAG}}
+          docker tag $image_name rgnadeem.jfrog.io/local-docker/$image_name:${{ env.IMAGE_TAG}}
+          docker push rgnadeem.jfrog.io/local-docker/$image_name:${{ env.IMAGE_TAG}}

@@ -10,29 +10,13 @@ RUN apt-get update && apt-get install -y \
     ca-certificates
 
 RUN echo "**************** Add Microsoft package signing key ***************"
-RUN wget https://packages.microsoft.com/config/ubuntu/22.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
+RUN curl https://packages.microsoft.com/config/ubuntu/22.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
 RUN dpkg -i packages-microsoft-prod.deb && rm packages-microsoft-prod.deb
+# RUN rm -rf /var/lib/apt/lists/*
 
-FROM base as runtime
-COPY --from=base . .
 
-RUN echo "************ Install .NET runtime ************"
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends dotnet-runtime-8.0
-
-FROM runtime as sdk
-COPY --from=runtime . .
-
-RUN echo "************** Install .NET SDK **************"
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    dotnet-sdk-8.0
-
-FROM sdk as aspnet
-COPY --from=sdk . .
 
 RUN echo "************** Install ASP.NET Core runtime **************"
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    aspnetcore-runtime-8.0
+RUN apt-get update && \
+    apt-get install aspnetcore-runtime-8.0 -y --no-install-recommends 
 
-# Set the working directory
-WORKDIR /app
