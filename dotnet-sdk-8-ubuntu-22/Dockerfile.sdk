@@ -12,18 +12,8 @@ RUN dpkg -i packages-microsoft-prod.deb && rm packages-microsoft-prod.deb
 ARG DOTNET_TYPE
 RUN echo "type is --> "${DOTNET_TYPE}
 
-# check if the argument is sdk
-
 RUN echo "************** Install .NET SDK **************"
 RUN apt-get update && \
-    apt-get install dotnet-sdk-8.0 -y --no-install-recommends 
+    apt-get install dotnet-sdk-8.0 -y --no-install-recommends
 
-RUN if [[ ${DOTNET_TYPE} == "runtime" ]]; then
-    RUN echo "************** Install .NET SDK **************"
-    RUN apt-get update && \
-        apt-get install dotnet-runtime-8.0 -y --no-install-recommends
-
-RUN if [[ ${DOTNET_TYPE} == "aspnetcore" ]]; then
-    RUN echo "************** Install .NET SDK **************"
-    RUN apt-get update && \
-        apt-get install aspnetcore-runtime-8.0 -y --no-install-recommends
+LABEL type=${DOTNET_TYPE}
