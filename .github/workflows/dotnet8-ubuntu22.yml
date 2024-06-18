@@ -54,7 +54,29 @@ jobs:
       - name: build docker image - sdk
         run: |
           image_name="dotnet-sdk-8-ubuntu22"
-          docker build -f ./${{env.PROJECT_NAME}}/Dockerfile.sdk -t $image_name .
+          docker build -f ./${{env.PROJECT_NAME}}/Dockerfile.sdk \
+                -t $image_name \
+                --build-arg DOTNET_TYPE="${image_name}" .
+          docker images
+          docker tag $image_name rgnadeem.jfrog.io/local-docker/$image_name:${{ env.IMAGE_TAG}}
+          docker push rgnadeem.jfrog.io/local-docker/$image_name:${{ env.IMAGE_TAG}}
+
+      - name: build docker image - aspnetcore
+        run: |
+          image_name="dotnet-aspnetcore-8-ubuntu22"
+          docker build -f ./${{env.PROJECT_NAME}}/Dockerfile.aspnet \
+                -t $image_name \
+                --build-arg DOTNET_TYPE="${image_name}" .
+          docker images
+          docker tag $image_name rgnadeem.jfrog.io/local-docker/$image_name:${{ env.IMAGE_TAG}}
+          docker push rgnadeem.jfrog.io/local-docker/$image_name:${{ env.IMAGE_TAG}}
+
+      - name: build docker image - runtime
+        run: |
+          image_name="dotnet-runtime-8-ubuntu22"
+          docker build -f ./${{env.PROJECT_NAME}}/Dockerfile.runtime \
+                -t $image_name \
+                --build-arg DOTNET_TYPE="${image_name}" .
           docker images
           docker tag $image_name rgnadeem.jfrog.io/local-docker/$image_name:${{ env.IMAGE_TAG}}
           docker push rgnadeem.jfrog.io/local-docker/$image_name:${{ env.IMAGE_TAG}}
