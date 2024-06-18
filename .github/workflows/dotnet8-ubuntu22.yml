@@ -24,10 +24,11 @@ env:
   PACKAGE_NAME: "bluegreen"
   IMAGE_NAME: "dotnet-base-image"
   IMAGE_TAG: "v2.1.0"
+  PROJECT_NAME: "dotnet-sdk-8-ubuntu22"
 
 
 jobs:
-  docker-build-push:
+  build-push-dotnet8-ubuntu22:
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -50,10 +51,26 @@ jobs:
           password: ${{ secrets.JF_DOCKER_ACCESS_TOKEN }}
           registry: ${{ env.JF_URL }}
         
-      - name: build docker image
+      - name: build docker image - sdk
         run: |
           mkdir -p ./local-docker
-          docker build -f ./dockerfiles/Dockerfile.dotnet -t ${{ env.IMAGE_NAME}} .
+          docker build -f ./${{env.PROJECT_NAME}}/Dockerfile.sdk -t ${{ env.IMAGE_NAME}} .
+          docker images
+          docker tag ${{ env.IMAGE_NAME}} rgnadeem.jfrog.io/local-docker/${{ env.IMAGE_NAME}}:${{ env.IMAGE_TAG}}
+          docker push rgnadeem.jfrog.io/local-docker/${{ env.IMAGE_NAME}}:${{ env.IMAGE_TAG}}
+
+      - name: build docker image - runtime
+        run: |
+          mkdir -p ./local-docker
+          docker build -f ./${{env.PROJECT_NAME}}/Dockerfile.runtime -t ${{ env.IMAGE_NAME}} .
+          docker images
+          docker tag ${{ env.IMAGE_NAME}} rgnadeem.jfrog.io/local-docker/dotnet/${{ env.IMAGE_NAME}}:${{ env.IMAGE_TAG}}
+          docker push rgnadeem.jfrog.io/local-docker/dotnet/${{ env.IMAGE_NAME}}:${{ env.IMAGE_TAG}}
+
+      - name: build docker image - aspnet
+        run: |
+          mkdir -p ./local-docker
+          docker build -f ./${{env.PROJECT_NAME}}/Dockerfile.aspnet -t ${{ env.IMAGE_NAME}} .
           docker images
           docker tag ${{ env.IMAGE_NAME}} rgnadeem.jfrog.io/local-docker/${{ env.IMAGE_NAME}}:${{ env.IMAGE_TAG}}
           docker push rgnadeem.jfrog.io/local-docker/${{ env.IMAGE_NAME}}:${{ env.IMAGE_TAG}}

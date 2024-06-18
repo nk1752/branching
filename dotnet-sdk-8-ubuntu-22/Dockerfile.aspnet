@@ -17,8 +17,8 @@ FROM base as runtime
 COPY --from=base . .
 
 RUN echo "************ Install .NET runtime ************"
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    dotnet-runtime-8.0
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends dotnet-runtime-8.0
 
 FROM runtime as sdk
 COPY --from=runtime . .

@@ -1,0 +1,38 @@
+FROM ubuntu:22.04 as base
+
+RUN echo "*************** Install dependencies ***************"
+RUN apt-get update && apt-get install -y \
+    curl \
+    wget \
+    apt-transport-https \
+    lsb-release \
+    gnupg \
+    ca-certificates
+
+RUN echo "**************** Add Microsoft package signing key ***************"
+RUN wget https://packages.microsoft.com/config/ubuntu/22.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
+RUN dpkg -i packages-microsoft-prod.deb && rm packages-microsoft-prod.deb
+
+FROM base as runtime
+COPY --from=base . .
+
+RUN echo "************ Install .NET runtime ************"
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends dotnet-runtime-8.0
+
+FROM runtime as sdk
+COPY --from=runtime . .
+
+RUN echo "************** Install .NET SDK **************"
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    dotnet-sdk-8.0
+
+FROM sdk as aspnet
+COPY --from=sdk . .
+
+RUN echo "************** Install ASP.NET Core runtime **************"
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    aspnetcore-runtime-8.0
+
+# Set the working directory
+WORKDIR /app
