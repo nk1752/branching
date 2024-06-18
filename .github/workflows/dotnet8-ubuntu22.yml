@@ -24,7 +24,7 @@ env:
   PACKAGE_NAME: "bluegreen"
   IMAGE_NAME: "dotnet-base-image"
   IMAGE_TAG: "v2.1.0"
-  PROJECT_NAME: "dotnet-sdk-8-ubuntu22"
+  PROJECT_NAME: "dotnet-sdk-8-ubuntu-22"
 
 
 jobs:
