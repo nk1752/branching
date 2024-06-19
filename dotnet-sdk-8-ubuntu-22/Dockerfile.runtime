@@ -1,12 +1,19 @@
 FROM ubuntu:22.04 as base
 
 # install curl, wget, and other tools
-RUN apt-get update && \
-    apt-get install -y curl wget apt-transport-https lsb-release gnupg
+RUN apt-get update \
+    && apt-get install -y \
+    curl \
+    wget \
+    apt-transport-https \
+    #lsb-release \
+    #gnupg
 
 RUN echo "**************** Add Microsoft package signing key ***************"
-RUN wget https://packages.microsoft.com/config/ubuntu/22.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
-RUN dpkg -i packages-microsoft-prod.deb && rm packages-microsoft-prod.deb
+RUN curl https://packages.microsoft.com/config/ubuntu/22.04/packages-microsoft-prod.deb --output packages-microsoft-prod.deb
+RUN dpkg -i packages-microsoft-prod.deb \
+    && rm packages-microsoft-prod.deb
+
 
 # check for arguments
 ARG DOTNET_TYPE
@@ -15,5 +22,10 @@ RUN echo "type is --> "${DOTNET_TYPE}
 RUN echo "************** Install .NET SDK **************"
 RUN apt-get update && \
     apt-get install dotnet-runtime-8.0 -y --no-install-recommends
+
+RUN echo "********list sdk dependencies********"
+RUN dotnet --list-sdks
+RUN echo "********list runtime dependencies********"
+RUN dotnet --list-runtime
 
 LABEL type=${DOTNET_TYPE}
