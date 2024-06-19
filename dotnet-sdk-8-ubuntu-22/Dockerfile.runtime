@@ -23,9 +23,5 @@ RUN echo "************** Install .NET SDK **************"
 RUN apt-get update && \
     apt-get install dotnet-runtime-8.0 -y --no-install-recommends
 
-RUN echo "********list sdk dependencies********"
-RUN dotnet --list-sdks
-RUN echo "********list runtime dependencies********"
-RUN dotnet --list-runtime
 
 LABEL type=${DOTNET_TYPE}
